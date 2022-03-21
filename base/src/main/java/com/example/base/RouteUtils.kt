@@ -1,8 +1,7 @@
-package com.example.base;
+package com.example.base
 
-public class RouteUtils {
-
-    public static final String HOME = "/home/a";
-    public static final String HOME1 = "/home/b";
-    public static final String Service_User = "/c/c";
+object RouteUtils {
+    const val HOME = "/home/a"
+    const val HOME1 = "/home/b"
+    const val Service_User = "/c/c"
 }

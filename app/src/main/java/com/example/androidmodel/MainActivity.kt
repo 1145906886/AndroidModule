@@ -1,45 +1,62 @@
-package com.example.androidmodel;
+package com.example.androidmodel
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import com.alibaba.android.arouter.launcher.ARouter
+import com.example.base.BaseActivity
+import com.example.base.RouteUtils
+import com.orhanobut.logger.Logger
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.base.BaseActivity;
-import com.example.base.RouteUtils;
-import com.example.home.HomeActivity;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+class MainActivity : BaseActivity(), View.OnClickListener {
+    lateinit var tv1: TextView
+    lateinit var tv2: TextView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-    TextView tv1;
-    TextView tv2;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        val listener = MyVideoPlayListener()
+        lifecycle.addObserver(listener)
     }
 
-    @Override
-    public void onContentChanged() {
-        super.onContentChanged();
-        tv1 = findViewById(R.id.tv1);
-        tv2 = findViewById(R.id.tv2);
-
-        tv1.setOnClickListener(this);
-        tv2.setOnClickListener(this);
+    override fun onContentChanged() {
+        super.onContentChanged()
+        tv1 = findViewById(R.id.tv1)
+        tv2 = findViewById(R.id.tv2)
+        tv1.setOnClickListener(this)
+        tv2.setOnClickListener(this)
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv1:
-                ARouter.getInstance().build(RouteUtils.HOME).navigation();
-                break;
-            case R.id.tv2:
-
-                break;
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.tv1 -> ARouter.getInstance().build(RouteUtils.HOME).navigation()
+            R.id.tv2 -> {}
         }
+    }
+
+}
+
+class MyVideoPlayListener : LifecycleObserver {
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    private fun initVideo() {
+        Logger.d("initVideo")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    private fun startPlay() {
+        Logger.d("startPlay")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    private fun pausePlay() {
+        Logger.d("pausePlay")
+    }
+
+    companion object {
+        private const val TAG = "MyVideoPlayListener"
     }
 }
