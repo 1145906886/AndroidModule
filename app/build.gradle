@@ -27,8 +27,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     if (isNeedHomeModule.toBoolean()) {
-        compile project(path: ':home')
+        api project(path: ':home')
     }
-    compile project(path: ':login')
+    api project(path: ':login')
 
 }
